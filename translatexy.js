@@ -2,7 +2,7 @@
 * @Author: Alex Dong
 * @Date:   2022-07-22 10:22:00
 * @Last Modified by:   Alex Dong
-* @Last Modified time: 2022-07-22 14:21:22
+* @Last Modified time: 2022-07-22 14:54:05
 */
 
 (function($) {
@@ -19,7 +19,6 @@
 			    	}
 			    	var $element = $(this),
 			    		translatexy  	  = $element.data('translatexy') || {},
-			    		translatexyLength = translatexy.length,
 			    		translatexyDelay  = parseInt($element.data('translatexy-delay')),
 			    		translatexySort   = Object.keys(translatexy).sort().reverse().reduce((r, k) => (r[k] = translatexy[k], r), {});
 					setTimeout(function(){
