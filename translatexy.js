@@ -2,14 +2,13 @@
 * @Author: Alex Dong
 * @Date:   2022-07-22 10:22:00
 * @Last Modified by:   Alex Dong
-* @Last Modified time: 2022-07-22 14:14:56
+* @Last Modified time: 2022-07-22 14:21:22
 */
 
 (function($) {
     'use strict';
     var scriptSelector = 'script[type="text/translatexy"]',
-        dataAttr = 'data-translatexy',
-        virtuals = [];
+        dataAttr = 'data-translatexy';
 	$(document).ready(function() {
 		var translateXY = (function fn() {
 		 		var $translatexyScript =  $(scriptSelector);
