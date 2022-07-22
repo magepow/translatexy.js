@@ -2,7 +2,7 @@
 * @Author: Alex Dong
 * @Date:   2022-07-22 10:22:00
 * @Last Modified by:   Alex Dong
-* @Last Modified time: 2022-07-22 14:54:05
+* @Last Modified time: 2022-07-22 15:07:21
 */
 
 (function($) {
@@ -19,8 +19,9 @@
 			    	}
 			    	var $element = $(this),
 			    		translatexy  	  = $element.data('translatexy') || {},
-			    		translatexyDelay  = parseInt($element.data('translatexy-delay')),
+			    		translatexyDelay  = $element.data('translatexy-delay') ? parseInt($element.data('translatexy-delay')) : 0,
 			    		translatexySort   = Object.keys(translatexy).sort().reverse().reduce((r, k) => (r[k] = translatexy[k], r), {});
+			    		console.log(translatexyDelay);
 					setTimeout(function(){
 				    	$.each(translatexySort, function(originalStr, translateStr) {
 				    		let regex 	  = new RegExp(originalStr, 'g');
