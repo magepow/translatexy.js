@@ -5,35 +5,32 @@
 * @Last Modified time: 2022-07-22 15:07:21
 */
 
-(function($) {
+(function() {
     'use strict';
-    var scriptSelector = 'script[type="text/translatexy"]',
-        dataAttr = 'data-translatexy';
-	$(document).ready(function() {
+	document.addEventListener("DOMContentLoaded", () => {
 		var translateXY = (function fn() {
-		 		var $translatexyScript =  $(scriptSelector);
-			    var $translatexyData =  $('[data-translatexy');
-			    $translatexyData.each(function() {
-			    	if($(this).hasClass('translatexy-init')){
-			    		return;
-			    	}
-			    	var $element = $(this),
-			    		translatexy  	  = $element.data('translatexy') || {},
-			    		translatexyDelay  = $element.data('translatexy-delay') ? parseInt($element.data('translatexy-delay')) : 0,
-			    		translatexySort   = Object.keys(translatexy).sort().reverse().reduce((r, k) => (r[k] = translatexy[k], r), {});
-			    		console.log(translatexyDelay);
-					setTimeout(function(){
-				    	$.each(translatexySort, function(originalStr, translateStr) {
-				    		let regex 	  = new RegExp(originalStr, 'g');
-				    		var content   = $element.html().replace(regex,translateStr);
-				    		$element.html(content);
-				    	});
-					}, translatexyDelay);
-			    });
+            var $translatexyScript =  document.querySelectorAll('script[type="text/translatexy"]');
+            document.querySelectorAll('data-translatexy').forEach((element) => {
+                if(element.classList.contains('translatexy-init')) {
+                    return;
+                }
+                var translatexy       = element.dataset.translatexy || {},
+                    translatexyDelay  = element.dataset.translatexyDelay ? parseInt(element.dataset.translatexyDelay) : 0,
+                    translatexySort   = Object.keys(translatexy).sort().reverse().reduce((r, k) => (r[k] = translatexy[k], r), {});
+                setTimeout(function(){
+                    translatexySort.forEach(function(originalStr, translateStr) {
+                        let regex     = new RegExp(originalStr, 'g');
+                        element.getElementsByTagName('*').forEach((el) => {
+                            el.textContent = el.textContent.replace(regex,translateStr);
+                        });
+                    });
+                }, translatexyDelay);
+            });
 		    return fn;
 		}());
-		$(document).on('contentUpdated', function(){
-			translateXY();
-		});    
+
+	    document.querySelector("body").addEventListener("contentUpdated", function(event){
+	        translateXY();
+	    });   
 	});
-})(jQuery);
+})();
