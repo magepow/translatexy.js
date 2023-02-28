@@ -14,14 +14,15 @@
                 if(element.classList.contains('translatexy-init')) {
                     return;
                 }
-                var translatexy       = element.dataset.translatexy || {},
+                var translatexy       = JSON.parse(element.dataset.translatexy) || {},
                     translatexyDelay  = element.dataset.translatexyDelay ? parseInt(element.dataset.translatexyDelay) : 0,
                     translatexySort   = Object.keys(translatexy).sort().reverse().reduce((r, k) => (r[k] = translatexy[k], r), {});
                 setTimeout(function(){
-                    translatexySort.forEach(function(originalStr, translateStr) {
+                    Object.entries(translatexySort).forEach(entry => {
+                        const [originalStr, translateStr] = entry;
                         let regex     = new RegExp(originalStr, 'g');
                         element.getElementsByTagName('*').forEach((el) => {
-                            el.textContent = el.textContent.replace(regex,translateStr);
+                            el.innerHTML = el.innerHTML.replace(regex,translateStr);
                         });
                     });
                 }, translatexyDelay);
