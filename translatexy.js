@@ -10,20 +10,34 @@
 	document.addEventListener("DOMContentLoaded", () => {
 		var translateXY = (function fn() {
             var $translatexyScript =  document.querySelectorAll('script[type="text/translatexy"]');
-            document.querySelectorAll('data-translatexy').forEach((element) => {
-                if(element.classList.contains('translatexy-init')) {
+            document.querySelectorAll('data-translatexy').forEach((el) => {
+                if(el.classList.contains('translatexy-init')) {
                     return;
                 }
-                var translatexy       = JSON.parse(element.dataset.translatexy) || {},
-                    translatexyDelay  = element.dataset.translatexyDelay ? parseInt(element.dataset.translatexyDelay) : 0,
+                var translatexy       = JSON.parse(el.dataset.translatexy) || {},
+                    translatexyDelay  = el.dataset.translatexyDelay ? parseInt(el.dataset.translatexyDelay) : 0,
                     translatexySort   = Object.keys(translatexy).sort().reverse().reduce((r, k) => (r[k] = translatexy[k], r), {});
                 setTimeout(function(){
                     Object.entries(translatexySort).forEach(entry => {
                         const [originalStr, translateStr] = entry;
                         let regex     = new RegExp(originalStr, 'g');
-                        element.getElementsByTagName('*').forEach((el) => {
-                            el.innerHTML = el.innerHTML.replace(regex,translateStr);
-                        });
+                        var elements = el.getElementsByTagName('*');
+                        for (var i = 0; i < elements.length; i++) {
+                            var element = elements[i];
+                        
+                            for (var j = 0; j < element.childNodes.length; j++) {
+                                var node = element.childNodes[j];
+                        
+                                if (node.nodeType === 3) {
+                                    var text = node.nodeValue;
+                                    var replacedText = text.replace(regex,translateStr);
+                        
+                                    if (replacedText !== text) {
+                                        element.replaceChild(document.createTextNode(replacedText), node);
+                                    }
+                                }
+                            }
+                        }
                     });
                 }, translatexyDelay);
             });
