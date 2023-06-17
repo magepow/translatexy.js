@@ -10,7 +10,7 @@
 	document.addEventListener("DOMContentLoaded", () => {
 		var translateXY = (function fn() {
             var $translatexyScript =  document.querySelectorAll('script[type="text/translatexy"]');
-            document.querySelectorAll('data-translatexy').forEach((el) => {
+            document.querySelectorAll('[data-translatexy]').forEach((el) => {
                 if(el.classList.contains('translatexy-init')) {
                     return;
                 }
